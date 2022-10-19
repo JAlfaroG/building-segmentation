@@ -1,0 +1,4 @@
+{
+    "data_path": "./data/esa-buildings-filtered.geojson",
+    "esa_poi": [13.7013, -89.2245]
+}
