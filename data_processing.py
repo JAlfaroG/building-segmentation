@@ -13,7 +13,7 @@ def get_geodesic_area(polygon):
     return area
 
 
-def get_data(data_path: str) -> gpd.GeoDataFrame:
+def get_data(data_path: str, sample_proportion=0.5) -> gpd.GeoDataFrame:
     # import data (filtered building footprints Microsoft)
     gdf = gpd.read_file(data_path)
     gdf.columns = gdf.columns.str.lower()
@@ -21,6 +21,7 @@ def get_data(data_path: str) -> gpd.GeoDataFrame:
     gdf["area_m2"] = gdf.geometry.apply(get_geodesic_area)
     gdf["area_km2"] = gdf["area_m2"] / 1000
 
-    subset = gdf.sample(2500)
-
-    return subset
+    if not (0 < sample_proportion <= 1):
+        raise Exception("Sample parameter must be between 0 and 1.")
+    else:
+        return gdf.sample(frac=sample_proportion)
