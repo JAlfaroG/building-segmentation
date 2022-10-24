@@ -1,4 +1,5 @@
 {
-    "data_path": "./data/esa-buildings-filtered.geojson",
-    "esa_poi": [13.7013, -89.2245]
+    "data_path": "data/esa-buildings-filtered.geojson",
+    "esa_poi": [13.7013, -89.2245],
+    "esa_aoi_path": "data/isochrone_5_mins_salvador_del_mundo.json"
 }
