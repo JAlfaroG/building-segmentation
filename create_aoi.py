@@ -1,8 +1,10 @@
 from functools import partial
 import pyproj
 from shapely import geometry
-from shapely.geometry import Point
+from shapely.geometry import Point, Polygon
 from shapely.ops import transform
+
+import geopandas as gpd
 
 
 def get_aoi(point_coord: list, radius: int) -> geometry:
@@ -51,3 +53,21 @@ def get_building_counts(polygon, gdf):
     except Exception as e:
         print(e)
         
+
+def load_aoi(shapefile):
+    gdf = gpd.read_file(shapefile)
+
+    if len(gdf) != 2:
+        raise Exception("Missing polygon or point in data.")
+
+    try:
+        for geom in gdf.geometry:
+            gtype = type(geom)
+            if gtype == Point:
+                esa_poi = geom
+            elif gtype == Polygon:
+                esa_aoi = geom
+    except Exception as e:
+        print(e)
+        
+    return esa_poi, esa_aoi
