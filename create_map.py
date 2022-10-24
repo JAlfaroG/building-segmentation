@@ -14,6 +14,9 @@ def get_map(esa_poi: list, gdf: gpd.GeoDataFrame, building_counts: int, area_pol
     print('-' * 100)
 
 
+    if type(esa_poi) is not list:
+        esa_poi = [esa_poi.centroid.y, esa_poi.centroid.x]
+
     m = folium.Map(location=esa_poi, zoom_start=13, tiles='cartodbpositron')
 
     # draws main map and shows coordinates at point
