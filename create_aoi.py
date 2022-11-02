@@ -44,15 +44,26 @@ def get_aoi(point_coord: list, radius: int) -> geometry:
     return circle_poly
 
 
-def get_building_counts(polygon, gdf):
+def get_building_segments(polygon: Polygon, gdf: gpd.GeoDataFrame):
     """
     Counts the polygons from the given GeoDataFrame that are within the polygon of interest.
     """
     try:
-        return sum([poly.within(polygon) for poly in gdf.geometry])
+        polygons_of_interest = [poly.within(polygon) for poly in gdf.geometry]
+        return sum(polygons_of_interest), polygons_of_interest
     except Exception as e:
         print(e)
         
+
+def get_aoi_subset(gdf:gpd.GeoDataFrame, poly_list:list, filter_data=False) -> gpd.GeoDataFrame:
+    filter_cols = ['name_1', 'name_2', 'geometry', 'area_m2', 'area_km2']
+    gdf["within_aoi"] = poly_list
+
+    if filter_data:
+        return gdf[gdf.within_aoi == True][filter_cols]
+
+    return gdf[gdf.within_aoi == True]
+
 
 def load_aoi(shapefile):
     gdf = gpd.read_file(shapefile)
