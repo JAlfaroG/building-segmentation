@@ -22,7 +22,6 @@ def main():
 
     subset = get_data(conf["data_path"], sample_proportion=args.sample)
 
-    esa_poi = conf["esa_poi"]
     esa_poi, esa_aoi = load_aoi(conf["esa_aoi_path"])
 
     # circle_poly = get_aoi(esa_poi, args.radius)
